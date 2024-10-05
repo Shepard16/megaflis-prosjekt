@@ -1,23 +1,24 @@
 import React from "react";
 
 interface OrderCardProps {
-    orderNumber: string;
-    status: string;
+    order: {
+        id: number;
+        orderNumber: string;
+        comment: string;
+        status: string;
+    };
+    onMoveOrder: (order: OrderCardProps['order']) => void; // Function to move order to next stage
 }
 
-const OrderCard: React.FC<OrderCardProps> = ({ orderNumber, status }) => {
-    const lastFiveDigits = orderNumber.slice(-5);
-
+export const OrderCard: React.FC<OrderCardProps> = ({ order, onMoveOrder }) => {
     return (
-        <div className="flex flex-col justify-between w-full h-24 p-4 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-            <p>
-                Ordre nummer: <span className="font-bold text-blue-500">{lastFiveDigits}</span>
-            </p>
-            <p>
-                Status: <span className="font-bold">{status}</span>
-            </p>
+        <div>
+            <p>{order.orderNumber} - {order.comment} - {order.status}</p>
+            {order.status != 'Klar til utlevering' && <button onClick={() => onMoveOrder(order)}>Move to next stage</button>}
         </div>
-    );
+    )
+
+    
 
 }
 
